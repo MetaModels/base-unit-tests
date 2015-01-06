@@ -18,6 +18,9 @@ namespace MetaModels\Test\Filter\Setting;
 
 use MetaModels\Filter\Setting\ICollection;
 use MetaModels\IMetaModel;
+use MetaModels\MetaModelsServiceContainer;
+use MetaModels\Test\Contao\Database;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
  * Abstract base class for testing filter settings.
@@ -35,14 +38,23 @@ abstract class TestCase extends \MetaModels\Test\TestCase
     {
         $metaModel = $this->getMock(
             'MetaModels\MetaModel',
-            array(),
+            array('getTableName', 'getServiceContainer'),
             array(array())
         );
+
+        $serviceContainer = new MetaModelsServiceContainer();
+        $serviceContainer
+            ->setDatabase(Database::getNewTestInstance())
+            ->setEventDispatcher(new EventDispatcher());
 
         $metaModel
             ->expects($this->any())
             ->method('getTableName')
             ->will($this->returnValue($tableName));
+        $metaModel
+            ->expects($this->any())
+            ->method('getServiceContainer')
+            ->will($this->returnValue($serviceContainer));
 
         return $metaModel;
     }
