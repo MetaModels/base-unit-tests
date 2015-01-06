@@ -55,4 +55,21 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         Contao\Input::$post   = $post;
         Contao\Input::$cookie = $cookies;
     }
+
+    /**
+     * Initialize the input instance with the given values.
+     *
+     * @param array $values The values to use.
+     *
+     * @return void
+     */
+    protected function initializeContaoSessionClass($values = null)
+    {
+        if (!class_exists('Contao\Session', false)) {
+            class_alias('MetaModels\Test\Contao\Session', 'Contao\Session');
+            class_alias('MetaModels\Test\Contao\Session', 'Session');
+        }
+
+        Contao\Session::$values = $values;
+    }
 }
