@@ -40,11 +40,10 @@ abstract class TestCase extends \MetaModels\Test\TestCase
      */
     protected function mockMetaModel($tableName = 'mm_unittest')
     {
-        $metaModel = $this->getMock(
-            'MetaModels\MetaModel',
-            array('getTableName', 'getServiceContainer'),
-            array(array())
-        );
+        $metaModel = $this
+            ->getMockBuilder('MetaModels\MetaModel')
+            ->setMethods(array('getTableName', 'getServiceContainer'))
+            ->getMock();
 
         $serviceContainer = new MetaModelsServiceContainer();
         $serviceContainer
@@ -72,11 +71,10 @@ abstract class TestCase extends \MetaModels\Test\TestCase
      */
     protected function mockFilterSetting($tableName = 'mm_unittest')
     {
-        $filterSetting = $this->getMock(
-            'MetaModels\Filter\Setting\Collection',
-            array('getMetaModel'),
-            array(array())
-        );
+        $filterSetting = $this
+            ->getMockBuilder('MetaModels\Filter\Setting\Collection')
+            ->setMethods(array('getMetaModel'))
+            ->getMock();
 
         $filterSetting
             ->expects($this->any())
