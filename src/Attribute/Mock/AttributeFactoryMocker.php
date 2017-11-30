@@ -1,24 +1,27 @@
 <?php
+
 /**
- * The MetaModels extension allows the creation of multiple collections of custom items,
- * each with its own unique set of selectable attributes, with attribute extendability.
- * The Front-End modules allow you to build powerful listing and filtering of the
- * data in each collection.
+ * This file is part of MetaModels/base-unit-tests.
  *
- * PHP version 5
+ * (c) 2012-2017 The MetaModels team.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * This project is provided in good faith and hope to be usable by anyone.
  *
  * @package    MetaModels
- * @subpackage Core
+ * @subpackage BaseUnitTests
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
- * @copyright  The MetaModels team.
- * @license    LGPL.
+ * @copyright  2012-2017 The MetaModels team.
+ * @license    https://github.com/MetaModels/base-unit-tests/blob/master/LICENSE LGPL-3.0
  * @filesource
  */
 
 namespace MetaModels\Test\Attribute\Mock;
 
 use MetaModels\Attribute\IAttributeTypeFactory;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * This is the factory interface to query instances of attributes.
@@ -33,19 +36,19 @@ class AttributeFactoryMocker
     /**
      * Mock an attribute type factory.
      *
-     * @param PHPUnit_Framework_TestCase $testCase   The test case for which to mock.
+     * @param TestCase $testCase   The test case for which to mock.
      *
-     * @param string                     $typeName   The type name to mock.
+     * @param string   $typeName   The type name to mock.
      *
-     * @param bool                       $translated Flag if the type shall be translated.
+     * @param bool     $translated Flag if the type shall be translated.
      *
-     * @param bool                       $simple     Flag if the type shall be simple.
+     * @param bool     $simple     Flag if the type shall be simple.
      *
-     * @param bool                       $complex    Flag if the type shall be complex.
+     * @param bool     $complex    Flag if the type shall be complex.
      *
-     * @param string                     $class      Name of the class to instantiate when createInstance() is called.
+     * @param string   $class      Name of the class to instantiate when createInstance() is called.
      *
-     * @param string                     $typeIcon   The icon of the type to mock.
+     * @param string   $typeIcon   The icon of the type to mock.
      *
      * @return IAttributeTypeFactory
      */
@@ -58,10 +61,16 @@ class AttributeFactoryMocker
         $class = 'stdClass',
         $typeIcon = 'icon.png'
     ) {
-        $mockTypeFactory = $testCase->getMock(
+        $reflection = new \ReflectionMethod($testCase, 'getMockForAbstractClass');
+        $reflection->setAccessible(true);
+
+        $mockTypeFactory = $reflection->invoke(
+            $testCase,
             'MetaModels\Attribute\IAttributeTypeFactory',
-            array('getTypeName', 'getTypeIcon', 'createInstance', 'isTranslatedType', 'isSimpleType', 'isComplexType'),
-            array()
+            [
+                ['getTypeName', 'getTypeIcon', 'createInstance', 'isTranslatedType', 'isSimpleType', 'isComplexType'],
+                []
+            ]
         );
 
         $mockTypeFactory

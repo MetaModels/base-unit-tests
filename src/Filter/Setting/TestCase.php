@@ -1,16 +1,20 @@
 <?php
+
 /**
- * The MetaModels extension allows the creation of multiple collections of custom items,
- * each with its own unique set of selectable attributes, with attribute extendability.
- * The Front-End modules allow you to build powerful listing and filtering of the
- * data in each collection.
+ * This file is part of MetaModels/base-unit-tests.
  *
- * PHP version 5
+ * (c) 2012-2017 The MetaModels team.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * This project is provided in good faith and hope to be usable by anyone.
+ *
  * @package    MetaModels
- * @subpackage Tests
+ * @subpackage BaseUnitTests
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
- * @copyright  The MetaModels team.
- * @license    LGPL.
+ * @copyright  2012-2017 The MetaModels team.
+ * @license    https://github.com/MetaModels/base-unit-tests/blob/master/LICENSE LGPL-3.0
  * @filesource
  */
 
@@ -36,11 +40,10 @@ abstract class TestCase extends \MetaModels\Test\TestCase
      */
     protected function mockMetaModel($tableName = 'mm_unittest')
     {
-        $metaModel = $this->getMock(
-            'MetaModels\MetaModel',
-            array('getTableName', 'getServiceContainer'),
-            array(array())
-        );
+        $metaModel = $this
+            ->getMockBuilder('MetaModels\MetaModel')
+            ->setMethods(array('getTableName', 'getServiceContainer'))
+            ->getMock();
 
         $serviceContainer = new MetaModelsServiceContainer();
         $serviceContainer
@@ -68,11 +71,10 @@ abstract class TestCase extends \MetaModels\Test\TestCase
      */
     protected function mockFilterSetting($tableName = 'mm_unittest')
     {
-        $filterSetting = $this->getMock(
-            'MetaModels\Filter\Setting\Collection',
-            array('getMetaModel'),
-            array(array())
-        );
+        $filterSetting = $this
+            ->getMockBuilder('MetaModels\Filter\Setting\Collection')
+            ->setMethods(array('getMetaModel'))
+            ->getMock();
 
         $filterSetting
             ->expects($this->any())
