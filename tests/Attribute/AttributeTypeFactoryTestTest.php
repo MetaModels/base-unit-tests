@@ -77,10 +77,12 @@ class AttributeTypeFactoryTestTest extends AttributeTypeFactoryTest
         $this->checkMockedFactory('test_translatedsimplecomplex', true, true, true);
 
         // Now we want to produce some error here to ensure our self test really also produces failures for nonsense.
-
         $failed = false;
         try {
             $this->checkMockedFactory('test_none', false, false, false);
+        } catch (\PHPUnit_Framework_ExpectationFailedException $ex) {
+            // As expected the assertion failed.
+            $failed = true;
         } catch (ExpectationFailedException $ex) {
             // As expected the assertion failed.
             $failed = true;
